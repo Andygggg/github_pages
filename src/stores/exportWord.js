@@ -174,7 +174,7 @@ export const exportWordStore = defineStore('exportWord', () => {
       img.onload = resolve
     })
 
-    const content = '112. 11. 07.'
+    // const content = '112. 11. 07.'
     const canvas = document.createElement('canvas')
     canvas.width = img.width
     canvas.height = img.height
@@ -182,12 +182,12 @@ export const exportWordStore = defineStore('exportWord', () => {
     const ctx = canvas.getContext('2d')
     ctx.drawImage(img, 0, 0, img.width, img.height)
 
-    ctx.textAlign = 'left'
-    ctx.textBaseline = 'top'
-    ctx.font = '28px 標楷體'
-    ctx.fillStyle = 'rgba(255, 255, 255, 1)'
+    // ctx.textAlign = 'left'
+    // ctx.textBaseline = 'top'
+    // ctx.font = '28px 標楷體'
+    // ctx.fillStyle = 'rgba(255, 255, 255, 1)'
 
-    ctx.fillText(content, img.width - content.split('').length * 15, img.height - 40, img.width)
+    // ctx.fillText(content, img.width - content.split('').length * 15, img.height - 40, img.width)
 
     const blob = await new Promise((resolve) => {
       canvas.toBlob(resolve)
