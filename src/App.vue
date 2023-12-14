@@ -28,7 +28,15 @@
     </div>
   </div>
   <div class="picture_container">
-    <div class="picture_upload" v-for="(picture, index) in DataPicture" :key="index">
+    <div
+      class="picture_upload"
+      v-for="(picture, index) in DataPicture"
+      :key="index"
+      :draggable="allowHandle"
+      @dragenter="dragEnter($event, picture)"
+      @dragover="dragOver($event)"
+      @dragend="dragEnd($event, picture)"
+    >
       <img :src="picture.Url" />
       <div class="picture_icon">
         <span><i class="bx bx-trash"></i></span>
@@ -64,6 +72,9 @@ const DataContent = ref({
 })
 const DataPicture = ref([])
 const ExportData = ref([])
+const drawTargetEle = ref({})
+const allowHandle = ref(true)
+const moveId = ref(0)
 
 const addDesign = () => {
   DataContent.value.design.push('\u00A0')
@@ -89,6 +100,7 @@ const handleDrop = (image) => {
       reader.readAsDataURL(Image)
       reader.onload = () => {
         let photo_item = {
+          id: moveId.value,
           name: Image.name,
           type: Image.type,
           size: Image.size,
@@ -96,6 +108,7 @@ const handleDrop = (image) => {
           Url: reader.result,
         }
         DataPicture.value.push(photo_item)
+        moveId.value++
       }
     } else {
       alert('不支援的檔案格式！上傳僅支援.jpg, .jpeg, .png圖檔')
@@ -129,6 +142,27 @@ const GetData = () => {
   }
   console.log(ExportData.value)
   ExportWord.GetData(ExportData.value)
+}
+
+const dragEnter = (e, target) => {
+  e.preventDefault()
+  if (allowHandle.value) {
+    drawTargetEle.value = target
+  }
+}
+
+const dragOver = (e) => {
+  e.preventDefault()
+}
+
+const dragEnd = (e, source) => {
+  const sourceIndex = DataPicture.value.findIndex((item) => item.id === source.id)
+  const targetIndex = DataPicture.value.findIndex((item) => item.id === drawTargetEle.value.id)
+  DataPicture.value[sourceIndex] = DataPicture.value.splice(
+    targetIndex,
+    1,
+    DataPicture.value[sourceIndex],
+  )[0]
 }
 </script>
 
@@ -231,6 +265,7 @@ const GetData = () => {
   align-items: center;
   cursor: pointer;
   margin-left: 0.8rem;
+  margin-bottom: 0.8rem;
   position: relative;
 }
 .picture_upload input {
