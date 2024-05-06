@@ -477,7 +477,7 @@ export const exportWordStore = defineStore('exportWord', () => {
     const doc = new Document({ sections })
 
     Packer.toBlob(doc).then((blob) => {
-      saveAs(blob, 'example.docx')
+      saveAs(blob, '貴陽大樓新建工程.docx')
     })
   }
 

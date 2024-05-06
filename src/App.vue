@@ -23,8 +23,8 @@
       <button @click="addDesign">新增欄位</button>
     </div>
     <div>
-      <button @click="GetData">export</button
-      ><button @click="ExportWord.generate">Generate Document</button>
+      <button @click="GetData">匯出文件</button>
+      <!-- <button @click="ExportWord.generate">Generate Document</button> -->
     </div>
   </div>
   <div class="picture_container">
@@ -118,30 +118,35 @@ const handleDrop = (image) => {
 }
 
 const GetData = () => {
-  for (let index = 0; index < DataPicture.value.length; index++) {
-    const element = DataPicture.value[index]
-    let export_item = {
-      title: `圖${index + 1}`,
-      content: {
-        name: DataContent.value.name,
-        date: DataContent.value.date,
-        main: DataContent.value.main,
-        direction: DataContent.value.direction,
-        design: DataContent.value.design,
-        actually: DataContent.value.actually,
-      },
-      picture: {
-        name: element.name,
-        type: element.type,
-        size: element.size,
-        Date: element.Date,
-        Url: element.Url,
-      },
+  if (DataPicture.value.length === 0) {
+    alert('無資料輸入')
+  } else {
+    for (let index = 0; index < DataPicture.value.length; index++) {
+      const element = DataPicture.value[index]
+      let export_item = {
+        title: `圖${index + 1}`,
+        content: {
+          name: DataContent.value.name,
+          date: DataContent.value.date,
+          main: DataContent.value.main,
+          direction: DataContent.value.direction,
+          design: DataContent.value.design,
+          actually: DataContent.value.actually,
+        },
+        picture: {
+          name: element.name,
+          type: element.type,
+          size: element.size,
+          Date: element.Date,
+          Url: element.Url,
+        },
+      }
+      ExportData.value.push(export_item)
     }
-    ExportData.value.push(export_item)
+    ExportWord.GetData(ExportData.value)
+    alert('匯出成功')
+    ExportWord.generate()
   }
-  console.log(ExportData.value)
-  ExportWord.GetData(ExportData.value)
 }
 
 const dragEnter = (e, target) => {
