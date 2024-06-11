@@ -376,7 +376,7 @@ export const exportWordStore = defineStore('exportWord', () => {
     })
   }
   //生成table
-  const generate = async () => {
+  const generate = async (header) => {
     let table = null
     let sections = []
     let Item = {
@@ -389,6 +389,8 @@ export const exportWordStore = defineStore('exportWord', () => {
       alignment: AlignmentType.CENTER,
     }
 
+    //今日日期
+    const today = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`
     const table_item = () => {
       table = new Table(Item)
       let sections_item = {
@@ -398,7 +400,7 @@ export const exportWordStore = defineStore('exportWord', () => {
               new Paragraph({
                 children: [
                   new TextRun({
-                    text: '貴陽大樓新建工程',
+                    text: header,
                     font: '標楷體',
                     size: 32,
                   }),
@@ -477,7 +479,7 @@ export const exportWordStore = defineStore('exportWord', () => {
     const doc = new Document({ sections })
 
     Packer.toBlob(doc).then((blob) => {
-      saveAs(blob, '貴陽大樓新建工程.docx')
+      saveAs(blob, `${header}_${today}.docx`)
     })
   }
 

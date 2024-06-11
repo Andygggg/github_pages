@@ -1,4 +1,7 @@
 <template>
+  <div class="header_container">
+    <span><label>工程名稱：</label><input type="text" v-model="word_header" /></span>
+  </div>
   <div class="data_container">
     <div class="describe_area">
       <span><label>檔名：</label><input type="text" v-model="DataContent.name" /></span>
@@ -62,6 +65,7 @@ import { exportWordStore } from '@/stores/exportWord.js'
 
 const ExportWord = exportWordStore()
 const inputImage = ref(null)
+const word_header = ref('新建工程')
 const DataContent = ref({
   name: '貴陽大樓新建工程',
   date: '112. 11. 07.',
@@ -145,7 +149,7 @@ const GetData = () => {
     }
     ExportWord.GetData(ExportData.value)
     alert('匯出成功')
-    ExportWord.generate()
+    ExportWord.generate(word_header.value)
   }
 }
 
@@ -172,6 +176,33 @@ const dragEnd = (e, source) => {
 </script>
 
 <style scoped>
+.header_container {
+  padding: 0.5rem;
+  display: grid;
+  grid-template-columns: 25% 15% 15% 10%;
+  justify-content: start;
+  align-items: start;
+}
+.header_container span {
+  display: flex;
+  align-items: center;
+  padding-bottom: 0.5rem;
+}
+.header_container label {
+  width: 100px;
+  color: #000000;
+  font-size: 14px;
+  font-weight: 600;
+}
+.header_container span input {
+  width: 100%;
+  outline: none;
+  border: 1px solid #707070;
+  font-size: 15px;
+  padding: 5px 5px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
 .data_container {
   width: 100%;
   padding: 0.5rem;
